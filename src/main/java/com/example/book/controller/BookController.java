@@ -42,7 +42,7 @@ public class BookController {
     // Update an existing book
     @PutMapping("/{id}")
     public ResponseEntity<Book> updateBook(@PathVariable long id, @RequestBody Book book) {
-        if (!bookService.existsById(id)) {
+        if (bookService.existsById(id)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         bookService.updateBook(id, book);
@@ -52,7 +52,7 @@ public class BookController {
     // Delete a book
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteBook(@PathVariable long id) {
-        if (!bookService.existsById(id)) {
+        if (bookService.existsById(id)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         bookService.deleteBook(id);

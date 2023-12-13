@@ -33,7 +33,7 @@ public class BookService {
     }
 
     public boolean existsById(long id) {
-        return books.stream().anyMatch(b -> b.getId() == id);
+        return books.stream().noneMatch(b -> b.getId() == id);
     }
 }
 
