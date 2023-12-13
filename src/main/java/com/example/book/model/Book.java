@@ -19,7 +19,7 @@ public class Book {
         return title;
     }
 
-    public void setTitle(String testTitle) {
+    public void setTitle(String title) {
         this.title = title;
     }
 
