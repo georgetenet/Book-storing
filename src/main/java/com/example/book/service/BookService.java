@@ -31,4 +31,10 @@ public class BookService {
     public void deleteBook(long id) {
         books.removeIf(b -> b.getId() == id);
     }
+
+    public boolean existsById(long id) {
+        return books.stream().anyMatch(b -> b.getId() == id);
+    }
 }
+
+
