@@ -1,5 +1,6 @@
 package com.example.book.model;
 
+
 public class Book {
     private long id;
     private String title;
