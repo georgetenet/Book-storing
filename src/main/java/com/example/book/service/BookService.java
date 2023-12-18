@@ -1,11 +1,11 @@
 package com.example.book.service;
 
-import com.example.book.model.Book;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.stereotype.Service;
+package com.example.book.service;
 
+import com.example.book.model.Book;
+import com.example.book.repository.BookRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,41 +14,35 @@ import java.util.Optional;
 public class BookService {
 
     @Autowired
-    private JdbcTemplate jdbcTemplate;
-
-    private final RowMapper<Book> bookRowMapper = (rs, rowNum) -> {
-
-        Book book = new Book();
-        book.setTitle(rs.getString("id"));
-        book.setTitle(rs.getString("title"));
-        book.setAuthor(rs.getString("author"));
-        return book;
-    };
+    private BookRepository bookRepository;
 
     public List<Book> findAll() {
-        return jdbcTemplate.query("SELECT * FROM books", bookRowMapper);
+        return bookRepository.findAll();
     }
 
-    public Optional<Book> findById(long id) {
-        List<Book> books = jdbcTemplate.query("SELECT * FROM books WHERE id = ?", bookRowMapper, id);
-        return books.stream().findFirst();
+    public Optional<Book> findById(Long id) {
+        return bookRepository.findById(id);
     }
 
-    public void addBook(Book book) {
-        jdbcTemplate.update("INSERT INTO books (title, author) VALUES (?, ?)", book.getTitle(), book.getAuthor());
+    public Book addBook(Book book) {
+        return bookRepository.save(book);
     }
 
-    public void updateBook(long id, Book book) {
-        jdbcTemplate.update("UPDATE books SET title = ?, author = ? WHERE id = ?", book.getTitle(), book.getAuthor(), id);
+    public Book updateBook(Long id, Book bookDetails) {
+        return bookRepository.findById(id)
+                .map(book -> {
+                    book.setTitle(bookDetails.getTitle());
+                    book.setAuthor(bookDetails.getAuthor());
+                    return bookRepository.save(book);
+                }).orElseThrow(() -> new RuntimeException("Book not found with id " + id));
     }
 
-    public void deleteBook(long id) {
-        jdbcTemplate.update("DELETE FROM books WHERE id = ?", id);
+    public void deleteBook(Long id) {
+        bookRepository.deleteById(id);
     }
 
-    public boolean existsById(long id) {
-        Integer count = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM books WHERE id = ?", Integer.class, id);
-        return count != null && count > 0;
+    public boolean existsById(Long id) {
+        return bookRepository.existsById(id);
     }
 }
 
