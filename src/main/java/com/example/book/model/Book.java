@@ -1,36 +1,14 @@
 package com.example.book.model;
+import lombok.Getter;
+import lombok.Setter;
+
 
 
 public class Book {
-    private long id;
-    private String title;
-    private String author;
+    @Getter @Setter private long id;
+    @Getter @Setter private String title;
+    @Getter @Setter private String author;
 
-    // Constructors, Getters, and Setters
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
 
 
 }
