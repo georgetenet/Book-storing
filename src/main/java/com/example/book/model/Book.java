@@ -1,13 +1,21 @@
 package com.example.book.model;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 
-
+@Entity
+@Getter
 public class Book {
-    @Getter @Setter private long id;
-    @Getter @Setter private String title;
-    @Getter @Setter private String author;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Setter private long id;
+    @Setter private String title;
+    @Setter private String author;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "StudentID")
+    private Student owner;
 
 
 
