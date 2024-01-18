@@ -18,5 +18,6 @@ public class Book {
     private Student owner;
 
 
-
+    public void setOwner(Student student) {
+    }
 }
