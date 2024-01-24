@@ -26,8 +26,8 @@ public class BookService {
         return bookRepository.save(book);
     }
 
-    public Book updateBook(Long id, Book bookDetails) {
-        return bookRepository.findById(id)
+    public void updateBook(Long id, Book bookDetails) {
+        bookRepository.findById(id)
                 .map(book -> {
                     book.setTitle(bookDetails.getTitle());
                     book.setAuthor(bookDetails.getAuthor());
